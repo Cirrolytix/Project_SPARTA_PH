@@ -1,0 +1,8 @@
+Get-ChildItem -Path C:\htdocs\Project_SPARTA_PH\01_Data\Google_Form_Surveys\Course_Evaluation *.csv | foreach { rename-item $_.Fullname $_.Fullname.Replace("_Course Evaluation (Responses)","") }
+
+Get-ChildItem *.csv | ForEach-Object {
+    $CSV = Import-CSV -Path $_.FullName -Delimiter ","
+    $FileName = $_.Name
+
+    $CSV | Select-Object *,@{N='Filename';E={$FileName}} | Export-CSV $_.FullName -NTI -Delimiter ","
+}
